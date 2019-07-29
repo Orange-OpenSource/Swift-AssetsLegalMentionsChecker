@@ -39,3 +39,35 @@ You can also make the program displays more messages with the verbose option:
 ```shell
 EXECUTABLE --folder FOLDER --mention CREDIT --verbose
 ```
+
+## Exit codes
+
+The program returns a value indicating if a problem occured or not:
+
+* (-1): something wrong occured (command line options for example)
+* (0): no error appeared, normal exit without image processing (e.g. display help)
+* (+1): normal exit but failure occured during check of images (i.e. at least 1 file does not have legal mention in credits)
+* (+2): normal exit, all files contain the legal mention
+
+## Xcode integration
+
+You can use this tool with an Xcode build script. The following sample can be placed in a script to add to your Xcode configuration. Thus the tool (with binary in the project) can be used easily.
+
+```shell
+#!/bin/sh
+LEGAL_NOTICE="My Project, (c) Copyright Me-MySelf-And-I- SA 2020, CC-BY-SA-NC 4.0"
+TOOL_PATH="path/to/binary/of/this/tool"
+TARGET="."
+
+$TOOL_PATH --folder "$TARGET" --mention "$LEGAL_NOTICE"
+result=$?
+
+if [ $result -eq 2 ]
+then
+	echo "✅ All assets contain legal notice in metadata."
+	exit 0
+else
+	echo "🔴 Something wrong occured, see logs for further details."
+	exit 1
+fi
+```
