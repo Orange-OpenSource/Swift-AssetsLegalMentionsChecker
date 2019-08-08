@@ -34,13 +34,13 @@
 ///     - (+2): normal exit, all files contain the legam mention
 ///
 /// - Author: Pierre-Yves Lapersonne
-/// - Version: 1.0.0
+/// - Version: 1.0.1
 /// - Since: 19/06/2019
 ///
 
 import Foundation
 
-// Mark: - Configuration
+// MARK: - Configuration
 
 public let VERSION = "1.0.0"
 public var VERBOSE = false
@@ -48,7 +48,7 @@ public var VERBOSE = false
 private let consoleWritter = ConsoleOutput()
 private let argumentsParser = ConsoleArgumentsParser()
 
-// Mark: - Deal with options
+// MARK: - Deal with options
 
 consoleWritter.printWelcome()
 
@@ -93,13 +93,13 @@ if mentionToFind.isEmpty {
     exit(-1)
 }
 
-// Mark: - Instructions to check files
+// MARK: - Instructions to check files
 
 consoleWritter.write("Will look in folder '\(folderToProcess)' for mention '\(mentionToFind)'", to: .standard)
 
 let areAllResourcesSuitable = AssetsLegalMentionsChecker("png|PNG").lookIn(folder: folderToProcess, for: mentionToFind)
 
-// Mark: - Check of results
+// MARK: - Check of results
 
 if !areAllResourcesSuitable {
     consoleWritter.write("🚨 FAILURE 🚨: There is at least one file without legal mention in metadata")
@@ -110,5 +110,3 @@ if !areAllResourcesSuitable {
     consoleWritter.printBye()
     exit(2)
 }
-
-

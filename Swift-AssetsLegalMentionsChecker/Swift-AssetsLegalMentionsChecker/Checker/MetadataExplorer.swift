@@ -26,18 +26,18 @@ import Foundation
 /// Structure which has the aim of reading metadata of images to look for expected details
 ///
 /// - Author: Pierre-Yves Lapersonne
-/// - Version: 1.0.0
+/// - Version: 1.0.1
 /// - Since: 27/06/2019
 ///
 struct MetadataExplorer {
-    
-    // Mark: - Variables
-    
+
+    // MARK: - Variables
+
     /// To display messages in the console
     let output = ConsoleOutput()
-    
-    // Mark: - Functions
-    
+
+    // MARK: - Functions
+
     /// Reads the metadata of the all the files at these paths and looks if an expected detail is available or not.
     /// - Parameters:
     ///     - at: The array of files' paths which must contain the expected detail in metadata
@@ -58,7 +58,7 @@ struct MetadataExplorer {
         }
         return allFilesAreSuitable
     }
-    
+
     /// Reads the metadata of the file at this path and looks if an expected detail is available or not.
     /// Will look in dedicated metadata bundles: TIFF, IPTC and PNG. These groups are defined for PNG files.
     /// - Parameters:
@@ -68,9 +68,9 @@ struct MetadataExplorer {
     ///     - A boolean value indicating if the detail is available (true) or not (false)
     ///
     func look(at path: String, for detail: String) -> Bool {
-        
+
         let url = URL(fileURLWithPath: path)
-        
+
         guard let imageData = try? Data(contentsOf: url) else {
             output.write("A problem occured with the file at '\(path)'", to: .error)
             return false
@@ -80,32 +80,32 @@ struct MetadataExplorer {
             return false
         }
         guard let metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, nil)
-            as? [AnyHashable : Any] else {
+            as? [AnyHashable: Any] else {
             output.write("It seems no metadata are avaialble for file at '\(path)'", to: .error)
             return false
         }
-    
+
         var areDetailsDefined = false
-        if processTIFF(bundle: metadata["{TIFF}"] as? [String : String]) == detail {
+        if processTIFF(bundle: metadata["{TIFF}"] as? [String: String]) == detail {
             areDetailsDefined = true
         } else {
             output.verbose("⚠️  Warning: Legal mentions are not defined in TIFF metadata field")
         }
-        if processIPTC(bundle: metadata["{IPTC}"] as? [String : String]) == detail {
+        if processIPTC(bundle: metadata["{IPTC}"] as? [String: String]) == detail {
             areDetailsDefined = true
         } else {
             output.verbose("⚠️  Warning: Legal mentions are not defined in IPTC metadata field")
         }
-        if processPNG(bundle: metadata["{PNG}"] as? [String : Any]) == detail {
+        if processPNG(bundle: metadata["{PNG}"] as? [String: Any]) == detail {
             areDetailsDefined = true
         } else {
             output.verbose("⚠️  Warning: legal mentions are not defined in PNG metadata field")
         }
-        
+
         return areDetailsDefined
-        
+
     }
-    
+
     /// Parses the group of metadata assuming the group is reated to TIFF field.
     /// Returns the value of the field which should contain the legal mentions
     /// - Parameters:
@@ -113,13 +113,13 @@ struct MetadataExplorer {
     /// - Returns:
     ///     - The value of the field which should contain the legal mention, or nil if undefined
     ///
-    private func processTIFF(bundle data: [String : String]?) -> String? {
+    private func processTIFF(bundle data: [String: String]?) -> String? {
         guard let data = data else {
             return nil
         }
         return data["Copyright"]
     }
-    
+
     /// Parses the group of metadata assuming the group is reated to IPTC field.
     /// Returns the value of the field which should contain the legal mentions
     /// - Parameters:
@@ -127,13 +127,13 @@ struct MetadataExplorer {
     /// - Returns:
     ///     - The value of the field which should contain the legal mention, or nil if undefined
     ///
-    private func processIPTC(bundle data: [String : String]?) -> String? {
+    private func processIPTC(bundle data: [String: String]?) -> String? {
         guard let data = data else {
             return nil
         }
         return data["CopyrightNotice"]
     }
- 
+
     /// Parses the group of metadata assuming the group is reated to PNG field.
     /// Returns the value of the field which should contain the legal mentions
     /// - Parameters:
@@ -141,11 +141,11 @@ struct MetadataExplorer {
     /// - Returns:
     ///     - The value of the field which should contain the legal mention, or nil if undefined
     ///
-    private func processPNG(bundle data: [String : Any]?) -> String? {
+    private func processPNG(bundle data: [String: Any]?) -> String? {
         guard let data = data else {
             return nil
         }
         return data["Copyright"] as? String
     }
-    
+
 }

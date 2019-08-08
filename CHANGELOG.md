@@ -7,3 +7,7 @@
 - Deals only with PNG files
 - Looks in TIFF, IPTC and PNG bundles of the metadata details for each file
 
+## Version ?.?.?
+
+- More details in documentation
+- Add SwiftLint to project

@@ -26,11 +26,11 @@ import Foundation
 /// Structure to use so as to parse raw parameters given to the command line in console mode
 ///
 /// - Author: Pierre-Yves Lapersonne
-/// - Version: 1.0.0
+/// - Version: 1.0.1
 /// - Since: 28/06/2019
 ///
 struct ConsoleArgumentsParser {
-    
+
     /// Checks if the arguments given in aprameters of the command are well written and can be used, or not
     /// - Returns: A flag indicating of parameters canot be used (false) or can be (true)
     ///
@@ -47,26 +47,26 @@ struct ConsoleArgumentsParser {
             ||
             (params.count == 3 && isVerboseDefined(in: params)) // FIXME Not efficient, missing cases
     }
-    
+
     /// Returns true if the option is for help message to display or false otherwise
     /// - Returns: A boolean value
     ///
     func isForHelp(arguments params: [(ConsoleArgumentTypes, String)]) -> Bool {
         return (params.count == 1 && params[0].0 == .help)
     }
-    
+
     /// Returns true if the option is for version message to display or false otherwise
     /// - Returns: A boolean value
     ///
     func isForVersion(arguments params: [(ConsoleArgumentTypes, String)]) -> Bool {
         return (params.count == 1 && params[0].0 == .version)
     }
-    
+
     /// Returns true if there is an option for the verbose mode or not (false)
     /// - Returns: A boolean value
     ///
     func isVerboseDefined(in arguments: [(ConsoleArgumentTypes, String)]) -> Bool {
         return arguments.filter { $0.0 == .verbose }.count == 1
     }
-    
+
 }
