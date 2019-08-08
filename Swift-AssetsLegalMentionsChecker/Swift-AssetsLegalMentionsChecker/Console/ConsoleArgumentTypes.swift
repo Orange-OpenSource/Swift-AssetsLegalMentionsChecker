@@ -26,29 +26,29 @@ import Foundation
 /// The types of options to give to the program.
 ///
 /// - Author: Pierre-Yves Lapersonne
-/// - Version: 1.0.0
+/// - Version: 1.0.1
 /// - Since: 19/06/2019
 ///
 enum ConsoleArgumentTypes: String {
-    
+
     /// The location of the folder to process recursively
     case folderToProcess = "--folder"
-    
+
     /// The credit / copyright / legal mention to look in metadata of images in the folder
     case lineToFind = "--mention"
-    
+
     /// Display the help / usage
     case help = "--help"
-    
+
     /// Display the version
     case version = "--version"
-    
+
     /// Define the verbose mode
     case verbose = "--versbose"
 
     /// Undefined option
     case undefined
-    
+
     /// Constructor
     /// - Parameters:
     ///     - value: The value given to the program as parameter
@@ -69,5 +69,5 @@ enum ConsoleArgumentTypes: String {
             self = .undefined
         }
     }
-    
+
 }

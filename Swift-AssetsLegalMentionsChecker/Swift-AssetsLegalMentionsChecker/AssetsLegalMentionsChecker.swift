@@ -27,19 +27,19 @@ import Foundation
 /// contain legal mentions in  metadata.
 ///
 /// - Author: Pierre-Yves Lapersonne
-/// - Version: 1.0.0
+/// - Version: 1.0.1
 /// - Since: 28/06/2019
 ///
 struct AssetsLegalMentionsChecker {
-    
-    // Mark: - Variables
-    
+
+    // MARK: - Variables
+
     /// The filter to use for the files to check
     private let ressourcesFilter: String
 
-    
-    // Mark: - Cnostructor
-    
+
+    // MARK: - Cnostructor
+
     /// Initializes the regular expression to use so as to filter the files extensions
     /// and keep only these we want to check
     /// - Parameters:
@@ -48,10 +48,9 @@ struct AssetsLegalMentionsChecker {
     init(_ filter: String) {
         ressourcesFilter = filter
     }
-    
-    
-    // Mark: - Methods
-    
+
+    // MARK: - Methods
+
     /// Looks recursively in the target folder for images  files with extension
     /// matching the filter "png|PNG", and check for these files if they contain in
     /// metadata the legal mentions.
@@ -67,5 +66,5 @@ struct AssetsLegalMentionsChecker {
         let areAllResourcesSuitable = MetadataExplorer().look(at: matchingRessources, for: credit)
         return areAllResourcesSuitable
     }
-    
+
 }

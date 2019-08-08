@@ -26,11 +26,11 @@ import Foundation
 /// Structure to use so as to write in outpu channels some messages
 ///
 /// - Author: Pierre-Yves Lapersonne
-/// - Version: 1.0.0
+/// - Version: 1.0.1
 /// - Since: 19/06/2019
 ///
 struct ConsoleOutput {
-    
+
     /// Displays a welcome message
     ///
     func printWelcome() {
@@ -42,13 +42,13 @@ struct ConsoleOutput {
         write("* Find easily in your images assets if legal mentions have been defined *")
         write("*************************************************************************")
     }
-    
+
     /// Displays the exit common message
     ///
     func printBye() {
         write("Execution completed, bye!")
     }
-    
+
     /// Displays in the standard output the usage of the program
     ///
     func printUsage() {
@@ -64,13 +64,13 @@ struct ConsoleOutput {
         write("\t\(executableName) --version")
         write("\t\t To display the version of the program")
     }
- 
+
     /// Displays in the standard output the version of the program
     ///
     func printVersion() {
         write("Version: \(VERSION)")
     }
-    
+
     /// Prints error message with more details
     ///
     func printBadCommandLineErrorMessage() {
@@ -78,7 +78,7 @@ struct ConsoleOutput {
         printUsage()
         printBye()
     }
-    
+
     /// Writes in the selected output the message
     /// - Parameters:
     ///     - message: The message to write
@@ -103,13 +103,13 @@ struct ConsoleOutput {
             write(message, to: to)
         }
     }
-    
+
 }
 
 /// Structure to use so as to read console entries or arguments
 ///
 /// - Author: Pierre-Yves Lapersonne
-/// - Version: 1.0.0
+/// - Version: 1.0.1
 /// - Since: 20/06/2019
 ///
 struct ConsoleInput {
@@ -124,43 +124,43 @@ struct ConsoleInput {
     ///     - An array of tuples containing the argument type and its value
     ///
     func processProgram(arguments args: inout [String]) -> [(ConsoleArgumentTypes, String)] {
-        
+
         let argsCount = args.count
-        
+
         if argsCount == 2 && args[1] == "--help" {
             return [(ConsoleArgumentTypes.help, "")]
         }
-        
+
         if argsCount == 2 && args[1] == "--version" {
             return [(ConsoleArgumentTypes.version, "")]
         }
-        
-        let expectedMinimalNumberOfArguments = 5
-        if argsCount != expectedMinimalNumberOfArguments
-            && argsCount != (expectedMinimalNumberOfArguments + 1){ // + 1 -> maybe add of --verbose
+
+        let expectedMinimalArgumentsCount = 5
+        if argsCount != expectedMinimalArgumentsCount
+            && argsCount != (expectedMinimalArgumentsCount + 1) { // + 1 -> maybe add of --verbose
             return [(ConsoleArgumentTypes.undefined, "")]
         }
-        
+
         var options: [(ConsoleArgumentTypes, String)] = []
         if  isVerboseDefined(in: args) {
             options.append((.verbose, ""))
             args = args.filter { $0 != "--verbose" }
         }
-        
-        for index in stride(from: 1, to: argsCount-1, by: 2 ){
+
+        for index in stride(from: 1, to: argsCount-1, by: 2) {
             let option = ConsoleArgumentTypes(value: args[index])
             guard option != .undefined else {
                 return [(option, "")]
             }
             if option != .verbose {
-                options.append((option,args[index+1]))
+                options.append((option, args[index+1]))
             }
         }
-        
+
         return options
-        
+
     }
-    
+
     /// Checks if the verbose option has been added oe not
     /// - Returns:
     ///     - a boolean value, true if available false otherwise
@@ -168,5 +168,5 @@ struct ConsoleInput {
     private func isVerboseDefined(in arguments: [String]) -> Bool {
         return  arguments.filter { $0 == "--verbose" }.count == 1
     }
-    
+
 }
